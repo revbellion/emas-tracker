@@ -23,24 +23,40 @@ const navigation = [
 const toggleSidebar = () => {
     sidebarCollapsed.value = !sidebarCollapsed.value;
 };
+
+// Helper to get route pattern for nav items
+const getRoutePattern = (item) => {
+    const map = {
+        'Dashboard': 'dashboard',
+        'Family Members': 'family-members.*',
+        'Transactions': 'transactions.*',
+        'Reports': 'reports.*',
+        'Activity Logs': 'activity-logs.*',
+        'Settings': 'settings.*',
+        'Backups': 'backups.*',
+    };
+    return map[item.name] || '';
+};
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-            <!-- Primary Navigation Menu -->
+    <div class="min-h-screen bg-gradient-to-br from-amber-50 via-white to-yellow-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
+        <!-- Navbar -->
+        <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-amber-200/50 dark:border-gray-800 sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
-                        <button @click="toggleSidebar" class="hidden sm:inline-flex mr-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <button @click="toggleSidebar"
+                            class="hidden sm:inline-flex mr-3 p-2 rounded-lg text-amber-600 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-200 hover:bg-amber-100 dark:hover:bg-gray-800 transition-all duration-200">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         </button>
-                        <Link :href="route('dashboard')">
-                            <ApplicationLogo class="block h-9 w-auto fill-current text-yellow-600" />
+                        <Link :href="route('dashboard')" class="flex items-center gap-2.5">
+                            <ApplicationLogo class="block h-9 w-9" />
+                            <span class="hidden sm:block text-lg font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 bg-clip-text text-transparent">Emas Tracker</span>
                         </Link>
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <div class="hidden space-x-1 sm:-my-px sm:ms-8 sm:flex">
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                 Dashboard
                             </NavLink>
@@ -48,26 +64,23 @@ const toggleSidebar = () => {
                     </div>
 
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
-                        <!-- Settings Dropdown -->
                         <div class="relative ms-3">
                             <Dropdown align="right" width="48">
                                 <template #trigger>
                                     <span class="inline-flex rounded-md">
-                                        <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                            {{ $page.props.auth.user.name }}
-
-                                            <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <button type="button"
+                                            class="inline-flex items-center gap-2 px-3 py-1.5 border border-amber-200/60 dark:border-gray-700 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-300 bg-white/60 dark:bg-gray-800/60 hover:bg-amber-50 dark:hover:bg-gray-800 focus:outline-none transition-all duration-200">
+                                            <span class="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white text-xs font-bold">{{ $page.props.auth.user.name.charAt(0) }}</span>
+                                            <span class="hidden lg:inline">{{ $page.props.auth.user.name }}</span>
+                                            <svg class="h-4 w-4 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
                                             </svg>
                                         </button>
                                     </span>
                                 </template>
-
                                 <template #content>
                                     <DropdownLink :href="route('profile.edit')">Profile</DropdownLink>
-                                    <DropdownLink :href="route('logout')" method="post" as="button">
-                                        Log Out
-                                    </DropdownLink>
+                                    <DropdownLink :href="route('logout')" method="post" as="button">Log Out</DropdownLink>
                                 </template>
                             </Dropdown>
                         </div>
@@ -75,7 +88,8 @@ const toggleSidebar = () => {
 
                     <!-- Hamburger -->
                     <div class="-me-2 flex items-center sm:hidden">
-                        <button @click="showingNavigationDropdown = !showingNavigationDropdown" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none transition duration-150 ease-in-out">
+                        <button @click="showingNavigationDropdown = !showingNavigationDropdown"
+                            class="p-2 rounded-lg text-amber-600 hover:text-amber-800 hover:bg-amber-100 dark:text-amber-400 dark:hover:text-amber-200 dark:hover:bg-gray-800 transition-all duration-200">
                             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                 <path :class="{ 'hidden': showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                                 <path :class="{ 'hidden': !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -85,43 +99,31 @@ const toggleSidebar = () => {
                 </div>
             </div>
 
-            <!-- Responsive Navigation Menu -->
-            <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }" class="sm:hidden">
-                <div class="pt-2 pb-3 space-y-1">
-                    <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                        Dashboard
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('family-members.index')" :active="route().current('family-members.*')">
-                        Family Members
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('transactions.index')" :active="route().current('transactions.*')">
-                        Transactions
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('reports.portfolio')" :active="route().current('reports.*')">
-                        Reports
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('activity-logs.index')" :active="route().current('activity-logs.*')">
-                        Activity Logs
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('settings.index')" :active="route().current('settings.*')">
-                        Settings
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink :href="route('backups.index')" :active="route().current('backups.*')">
-                        Backups
+            <!-- Mobile Navigation -->
+            <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }" class="sm:hidden border-t border-amber-100 dark:border-gray-800">
+                <div class="pt-2 pb-3 space-y-1 px-3">
+                    <ResponsiveNavLink v-for="item in navigation" :key="item.name" :href="item.href" :active="route().current(getRoutePattern(item))">
+                        <template #default>
+                            <div class="flex items-center gap-3">
+                                <svg class="h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="item.icon" />
+                                </svg>
+                                {{ item.name }}
+                            </div>
+                        </template>
                     </ResponsiveNavLink>
                 </div>
-
-                <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-                    <div class="px-4">
-                        <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ $page.props.auth.user.name }}</div>
-                        <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                <div class="pt-4 pb-3 border-t border-amber-100 dark:border-gray-800 px-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white text-sm font-bold">{{ $page.props.auth.user.name.charAt(0) }}</span>
+                        <div>
+                            <div class="font-medium text-sm text-gray-900 dark:text-gray-200">{{ $page.props.auth.user.name }}</div>
+                            <div class="text-xs text-gray-500">{{ $page.props.auth.user.email }}</div>
+                        </div>
                     </div>
-
-                    <div class="mt-3 space-y-1">
+                    <div class="space-y-1">
                         <ResponsiveNavLink :href="route('profile.edit')">Profile</ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                            Log Out
-                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('logout')" method="post" as="button">Log Out</ResponsiveNavLink>
                     </div>
                 </div>
             </div>
@@ -129,24 +131,29 @@ const toggleSidebar = () => {
 
         <div class="flex">
             <!-- Sidebar -->
-            <aside :class="sidebarCollapsed ? 'w-16' : 'w-64'" class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 hidden sm:block min-h-[calc(100vh-4rem)]">
-                <nav class="mt-4 px-2 space-y-1">
+            <aside :class="sidebarCollapsed ? 'w-16' : 'w-64'"
+                class="bg-gradient-to-b from-white to-amber-50/50 dark:from-gray-900 dark:to-gray-900 border-r border-amber-200/40 dark:border-gray-800 transition-all duration-300 hidden sm:block min-h-[calc(100vh-4rem)] sticky top-16">
+                <nav class="mt-4 px-2 space-y-0.5">
                     <Link v-for="item in navigation" :key="item.name" :href="item.href"
                         :class="[
-                            route().current(item.href === route('dashboard') ? 'dashboard' : item.name === 'Dashboard' ? 'dashboard' : item.name === 'Family Members' ? 'family-members.*' : item.name === 'Transactions' ? 'transactions.*' : item.name === 'Reports' ? 'reports.*' : item.name === 'Activity Logs' ? 'activity-logs.*' : item.name === 'Settings' ? 'settings.*' : '') ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-gray-200',
-                            'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors duration-150'
+                            route().current(getRoutePattern(item))
+                                ? 'bg-gradient-to-r from-amber-100 to-amber-50 dark:from-amber-900/30 dark:to-amber-800/10 text-amber-800 dark:text-amber-300 border-l-2 border-amber-500'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-amber-50/50 dark:hover:bg-gray-800/50 hover:text-amber-700 dark:hover:text-amber-300 border-l-2 border-transparent',
+                            'group flex items-center px-3 py-2.5 text-sm font-medium transition-all duration-200 rounded-r-lg'
                         ]">
                         <svg class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="item.icon" />
                         </svg>
-                        <span v-show="!sidebarCollapsed">{{ item.name }}</span>
+                        <span v-show="!sidebarCollapsed" class="truncate">{{ item.name }}</span>
                     </Link>
                 </nav>
             </aside>
 
-            <!-- Page Content -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8">
-                <slot />
+            <!-- Main Content -->
+            <main class="flex-1 p-4 sm:p-6 lg:p-8 min-h-[calc(100vh-4rem)]">
+                <div class="max-w-7xl mx-auto">
+                    <slot />
+                </div>
             </main>
         </div>
     </div>
