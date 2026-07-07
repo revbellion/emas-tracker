@@ -26,21 +26,19 @@ const alignmentClasses = computed(() => {
         <div @click="open = !open">
             <slot name="trigger" />
         </div>
-        <Teleport to="body">
-            <Transition
-                enter-active-class="transition ease-out duration-200"
-                enter-from-class="transform opacity-0 scale-95"
-                enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-100"
-                leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95"
-            >
-                <div v-show="open" class="absolute z-50 mt-2 rounded-xl shadow-xl" :class="[widthClass, alignmentClasses]">
-                    <div class="rounded-xl ring-1 ring-black/5 overflow-hidden" :class="props.contentClasses" @click="open = false">
-                        <slot name="content" />
-                    </div>
+        <Transition
+            enter-active-class="transition ease-out duration-200"
+            enter-from-class="transform opacity-0 scale-95"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-100"
+            leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-95"
+        >
+            <div v-show="open" class="absolute z-50 mt-2 rounded-xl shadow-xl" :class="[widthClass, alignmentClasses]" @click.outside="open = false">
+                <div class="rounded-xl ring-1 ring-black/5 overflow-hidden" :class="props.contentClasses" @click="open = false">
+                    <slot name="content" />
                 </div>
-            </Transition>
-        </Teleport>
+            </div>
+        </Transition>
     </div>
 </template>
