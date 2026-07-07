@@ -14,10 +14,7 @@ const formatSize = (bytes) => {
 };
 
 const download = () => {
-    router.post(route('backups.download'), {}, {
-        preserveState: true,
-        preserveScroll: true,
-    });
+    window.location.href = route('backups.download');
 };
 
 const restore = () => {

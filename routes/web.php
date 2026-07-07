@@ -60,7 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('backups')->group(function () {
         Route::get('/', [BackupController::class, 'index'])->name('backups.index');
-        Route::post('/download', [BackupController::class, 'download'])->name('backups.download');
+        Route::get('/download', [BackupController::class, 'download'])->name('backups.download');
         Route::post('/restore', [BackupController::class, 'restore'])->name('backups.restore');
     });
 
