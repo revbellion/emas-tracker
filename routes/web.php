@@ -7,6 +7,7 @@ use App\Http\Controllers\GoldTransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BackupController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -55,6 +56,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/sync-price/{provider}', [SettingController::class, 'syncPrice'])->name('settings.sync-price');
         Route::post('/manual-price', [SettingController::class, 'setManualPrice'])->name('settings.manual-price');
+    });
+
+    Route::prefix('backups')->group(function () {
+        Route::get('/', [BackupController::class, 'index'])->name('backups.index');
+        Route::post('/download', [BackupController::class, 'download'])->name('backups.download');
+        Route::post('/restore', [BackupController::class, 'restore'])->name('backups.restore');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
