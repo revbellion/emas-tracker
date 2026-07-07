@@ -57,9 +57,9 @@ const deactivateMember = (member) => {
     <AuthenticatedLayout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto">
-                <div class="flex justify-between items-center">
+                <div class="flex flex-wrap justify-between items-center gap-3">
                     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Family Members</h1>
-                    <button @click="openCreateForm" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700">+ Add Member</button>
+                    <button @click="openCreateForm" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 text-sm">+ Add Member</button>
                 </div>
 
                 <!-- Form Modal -->

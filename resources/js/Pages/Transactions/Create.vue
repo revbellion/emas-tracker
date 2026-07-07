@@ -103,7 +103,7 @@ const submitForm = () => {
                 <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg p-6">
                     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">New Transaction</h1>
 
-                    <div class="flex space-x-2 mb-6">
+                    <div class="flex flex-wrap gap-2 mb-6">
                         <button v-for="type in ['buy', 'sell', 'transfer', 'adjustment']" :key="type" @click="transactionType = type"
                             :class="transactionType === type ? 'bg-yellow-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'"
                             class="px-4 py-2 rounded-md text-sm font-medium capitalize">
@@ -124,7 +124,7 @@ const submitForm = () => {
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Input Mode</label>
-                                <div class="flex space-x-2">
+                                <div class="flex flex-wrap gap-2">
                                     <button type="button" @click="buyInputMode = 'gram'; buyForm.gram = ''; buyTotalRupiah = ''" :class="buyInputMode === 'gram' ? 'bg-yellow-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 text-xs rounded-md">By Gram</button>
                                     <button type="button" @click="buyInputMode = 'rupiah'; buyTotalRupiah = ''; buyForm.gram = ''" :class="buyInputMode === 'rupiah' ? 'bg-yellow-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 text-xs rounded-md">By Rupiah</button>
                                 </div>
@@ -169,7 +169,7 @@ const submitForm = () => {
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Input Mode</label>
-                                <div class="flex space-x-2">
+                                <div class="flex flex-wrap gap-2">
                                     <button type="button" @click="sellInputMode = 'gram'; sellForm.gram = ''; sellTotalRupiah = ''" :class="sellInputMode === 'gram' ? 'bg-yellow-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 text-xs rounded-md">By Gram</button>
                                     <button type="button" @click="sellInputMode = 'rupiah'; sellTotalRupiah = ''; sellForm.gram = ''" :class="sellInputMode === 'rupiah' ? 'bg-yellow-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 text-xs rounded-md">By Rupiah</button>
                                 </div>

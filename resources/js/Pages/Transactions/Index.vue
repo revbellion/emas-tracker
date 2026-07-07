@@ -37,9 +37,9 @@ const voidTransaction = (tx) => {
     <AuthenticatedLayout>
         <div class="py-6">
             <div class="max-w-7xl mx-auto">
-                <div class="flex justify-between items-center">
+                <div class="flex flex-wrap justify-between items-center gap-3">
                     <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Transactions</h1>
-                    <Link :href="route('transactions.create')" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700">+ New Transaction</Link>
+                    <Link :href="route('transactions.create')" class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 text-sm">+ New Transaction</Link>
                 </div>
 
                 <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mt-6 mb-6 flex flex-wrap gap-4 items-end">
@@ -104,9 +104,9 @@ const voidTransaction = (tx) => {
                         </tbody>
                     </table>
 
-                    <div v-if="transactions.links && transactions.links.length > 3" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                    <div v-if="transactions.links && transactions.links.length > 3" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
                         <span class="text-sm text-gray-500 dark:text-gray-400">Page {{ transactions.current_page }} of {{ transactions.last_page }}</span>
-                        <div class="flex gap-1">
+                        <div class="flex flex-wrap gap-1">
                             <a v-for="link in transactions.links" :key="link.label" :href="link.url || '#'" v-html="link.label" class="px-3 py-1 text-sm rounded" :class="link.active ? 'bg-yellow-600 text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'" />
                         </div>
                     </div>

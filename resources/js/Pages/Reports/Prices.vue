@@ -99,9 +99,9 @@ const formatCurrency = (value) => {
                         </tbody>
                     </table>
 
-                    <div v-if="prices.links && prices.links.length > 3" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                    <div v-if="prices.links && prices.links.length > 3" class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap justify-between items-center gap-2">
                         <span class="text-sm text-gray-500 dark:text-gray-400">Page {{ prices.current_page }} of {{ prices.last_page }}</span>
-                        <div class="flex gap-1">
+                        <div class="flex flex-wrap gap-1">
                             <a v-for="link in prices.links" :key="link.label" :href="link.url || '#'" v-html="link.label" class="px-3 py-1 text-sm rounded" :class="link.active ? 'bg-yellow-600 text-white' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'" />
                         </div>
                     </div>
